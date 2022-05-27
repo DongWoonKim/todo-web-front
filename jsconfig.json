@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "baseUrl": "./",
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "eslintConfig": {
+      "rules": {
+        "no-unused-vars": "off",
+        "no-console": [
+          "warn",{ "allow":[ "clear", "info", "error", "dir", "trace", "log"]}
+        ],
+      }
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  }
+}

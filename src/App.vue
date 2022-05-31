@@ -6,7 +6,10 @@
     @removeTodo="removeTodo"/>
   <TodoFooter v-on:removeAll="clearAll"/>
   <!-- 회원가입 모달 -->
-  <SignUp></SignUp>
+  <SignUp v-if="signUpModal" v-on:modalEvent="modalEvent"></SignUp>
+  <!-- 로그인 모달 -->
+  <SignIn></SignIn>
+
 
   <!-- 로그인 모달 : ouath version -->
   <!--
@@ -42,6 +45,7 @@ import TodoFooter from './components/common/TodoFooter.vue'
 import TodoInput from './components/todo-core/TodoInput.vue'
 import TodoList from './components/todo-core/TodoList.vue'
 import SignUp from './components/login/SignUp.vue'
+import SignIn from './components/login/SignIn.vue'
 import Axios from 'axios'
 // import { inject, toRefs } from "vue";
 
@@ -54,6 +58,7 @@ export default {
     'TodoInput' : TodoInput,
     'TodoList' : TodoList,
     'SignUp' : SignUp,
+    'SignIn' : SignIn
   },
   data() {
     return {
@@ -85,6 +90,13 @@ export default {
         this.signInModal = true;
       } else if ( key === 'logout' ) {
         this.handleClickSignOut();
+      } else if ( key === 'signUp' ) {
+        this.signUpModal = true;
+      }
+    },
+    modalEvent(key) {
+      if ( key === 'modalClose' ) {
+        this.signUpModal = false;
       }
     },
     clearAll() {

@@ -74,14 +74,14 @@ export default {
       userPwCheck : '',
       userName : '',
       userBirth : '',
-      userEmail : ''
+      userEmail : '',
+      mailFlag : false
     }
   },
   methods: {
     /* ID 중복 체크 */
     checkDuplicateId() {
 
-      console.log('this user id', this.userId)
       let self = this;
 
       // axios get 요청
@@ -106,13 +106,45 @@ export default {
         });
 
     },
+    /* email 중복 체크 */
+    async checkDuplicateEmail() {
+
+      let self = this;
+      // axios get 요청
+      await Axios.get( 'http://localhost:8080/member/email', {
+        params : {
+          userEmail : this.userEmail
+        }
+      })
+        .then( function( res ) {
+          console.log('res res res', res);
+          if ( res.data ) {
+            self.mailFlag = true;
+          }
+
+        })
+        .catch(function(error) {
+          console.log('res', error);
+        });
+
+    },
     /* 회원가입 */
-    signUp() {
+    async signUp() {
 
       /*
         ******* 방어코드 시작 *******
        */
       if ( !this.checkInvalidate() ) return;
+
+      // email 체크
+      await this.checkDuplicateEmail()
+      console.log('get 2', this.mailFlag)
+
+      if ( this.mailFlag ) {
+        alert('이미 가입된 email 입니다.');
+        this.mailFlag = false;
+        return;
+      }
 
       let self = this;
       // axios post 요청
@@ -136,6 +168,7 @@ export default {
         .catch(function(error) {
           console.log('res', error);
         });
+
 
     },
     /* 키이벤트 */
@@ -173,6 +206,7 @@ export default {
       this.userName    = '';
       this.userBirth   = '';
       this.userEmail   = '';
+      this.mailFlag    = false;
 
     },
     /* 검증 */

@@ -8,7 +8,7 @@
   <!-- 회원가입 모달 -->
   <SignUp v-if="signUpModal" v-on:modalEvent="modalEvent"></SignUp>
   <!-- 로그인 모달 -->
-  <SignIn></SignIn>
+  <SignIn v-if="signInModal" v-on:modalEvent="modalEvent"></SignIn>
 
 
   <!-- 로그인 모달 : ouath version -->
@@ -95,8 +95,13 @@ export default {
       }
     },
     modalEvent(key) {
+
       if ( key === 'modalClose' ) {
         this.signUpModal = false;
+        this.signInModal = false;
+      } else if ( key === 'signUp' ) {        
+        this.signInModal = false;
+        this.signUpModal = true;
       }
     },
     clearAll() {

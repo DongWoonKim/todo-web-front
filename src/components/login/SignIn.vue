@@ -6,6 +6,7 @@
         class="closeModalBtn fas fa-times"
         aria-hidden="true"
         style="font-size:3rem;"
+        @click="modalEvent('modalClose')"
         ></i>
       </div>
       <h3>로그인</h3>
@@ -14,19 +15,19 @@
 
       <div class="input-group">
         <span class="input-group-addon">ID</span>
-        <input type="text" class="form-control" placeholder="ID를 입력하세요.">
+        <input type="text" v-model="userId" @input="keyEvent" class="form-control" placeholder="ID를 입력하세요.">
       </div><!-- /input-group -->
 
       <div class="input-group commonMarginTop">
         <span class="input-group-addon">PW</span>
-        <input type="password" class="form-control" placeholder="비밀번호를 입력하세요.">
+        <input type="password" v-model="userPw" class="form-control" placeholder="비밀번호를 입력하세요.">
       </div><!-- /input-group -->
 
     </template>
     <template #footer>
       <div class="">
-        <button type="button" class="btn btn-default" style="margin:0;">로그인</button>
-        <button type="button" class="btn btn-default commonMarginLeft" style="margin:0; margin-left: 5px;">회원가입</button>
+        <button type="button" @click="doSignUp" class="btn btn-default" style="margin:0;">로그인</button>
+        <button type="button" @click="modalEvent('signUp')" class="btn btn-default commonMarginLeft" style="margin:0; margin-left: 5px;">회원가입</button>
       </div>
     </template>
   </Modal>
@@ -34,7 +35,7 @@
 
 <script>
 import Modal from '../../components/common/TodoModal.vue'
-// import Axios from 'axios'
+import Axios from 'axios'
 
 export default {
 
@@ -44,10 +45,91 @@ export default {
   },
   data() {
     return {
-
+      userId : '',
+      userPw : ''
     }
   },
   methods: {
+    modalEvent( key ) {
+      this.$emit('modalEvent', key);
+    },
+    doSignUp() {
+
+      /*
+        ******* 방어코드 시작 *******
+       */
+      if ( !this.checkInvalidate() ) return;
+
+      // let self = this;
+      // axios post 요청
+      let obj = {};
+      obj.userId = this.userId;
+      obj.userPw = this.userPw;
+
+      Axios.post('http://localhost:8080/member/signin', JSON.stringify( obj ), this.axiosConfig)
+        .then( function( res ) {
+
+          console.log('res', res);
+
+        })
+        .catch(function(error) {
+          console.log('res', error);
+        });
+
+    },
+    /* 검증 */
+    checkInvalidate() {
+
+      if (
+        this.userId === '' ||
+        this.userPw === ''
+      ) {
+        alert('빠짐없이 정보를 입력해주세요!');
+        return false;
+      }
+
+      // userId 체크
+      if ( this.userId.length < 5 ) {
+        alert('ID는 5자리 이상이어야 합니다!');
+        return false;
+      }
+
+      // password 체크
+      if ( this.userPw.length < 6 ) {
+        alert('입력한 글자가 6글자 이상이어야 합니다!');
+        return false;
+      }
+
+      // 모든 검증을 통과시
+      return true;
+    },
+    /* 키이벤트 */
+    keyEvent( e ) {
+
+      const regExp  = /[^0-9a-z]/g;
+      const regExp2 = /[^a-z]/g;
+      const ele     = e.target;
+
+      // userId 첫 글자 숫자 막기
+      if ( this.userId.trim().length === 1 ) {
+
+        if (regExp2.test(ele.value)) {
+          ele.value = ele.value.replace(regExp2, '');
+          alert('ID는 첫 시작은 영문자만 사용가능합니다. ')
+        }
+      }
+
+      // userId 한글입력 막기
+      if (regExp.test(ele.value)) {
+        ele.value = ele.value.replace(regExp, '');
+        alert('ID는 영문(소문자), 숫자만 사용가능합니다. ')
+      }
+
+      // 중복체크 해제
+      if ( this.isUserIdCheck ) this.isUserIdCheck = !this.isUserIdCheck;
+
+    },
+
 
   }
 

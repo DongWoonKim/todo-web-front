@@ -1,6 +1,7 @@
 <template lang="html">
   <header>
     <h1>머하꽈</h1>
+    <!-- 로그인 여부는 vuex의 값을 바라보게 한다. -->
     <div v-if="!isSignIn" class="member">
       <span class="login" @click="headEvent('login')">로그인</span> |
       <span class="login" @click="headEvent('signUp')">회원가입</span>

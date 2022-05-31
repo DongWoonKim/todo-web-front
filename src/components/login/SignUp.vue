@@ -130,6 +130,7 @@ export default {
           console.log('res', res);
           alert('가입을 축하드립니다! 로그인해주세요.');
           self.signFormInit();
+          self.modalEvent();
 
         })
         .catch(function(error) {

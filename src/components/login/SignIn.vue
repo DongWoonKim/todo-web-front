@@ -23,6 +23,14 @@
         <input type="password" v-model="userPw" class="form-control" placeholder="비밀번호를 입력하세요.">
       </div><!-- /input-group -->
 
+      <!-- 해당 정보 입력관련 처리는 App.vue에서 처리하게 한다. -->
+      <div class="input-group commonMarginTop">
+        [&nbsp;<a href="#">ID가 기억나지 않으세요?</a>&nbsp;]
+      </div><!-- /input-group -->
+      <div class="input-group commonMarginTop">
+        [&nbsp;<a href="#">비밀번호가 기억나지 않으세요?</a>&nbsp;]
+      </div><!-- /input-group -->
+
     </template>
     <template #footer>
       <div class="">
@@ -55,6 +63,7 @@ export default {
     },
     doSignUp() {
 
+      let self = this;
       /*
         ******* 방어코드 시작 *******
        */
@@ -70,6 +79,15 @@ export default {
         .then( function( res ) {
 
           console.log('res', res);
+          if ( res.data === '' ) {
+            alert('존재하지 않거나 입력하신 ID or 비밀번호가 일치하지 않습니다!');
+            return;
+          }
+
+          // 사용자 정보를 vuex에 저장시킨다.
+
+          // 로그인 창을 닫는다.
+          self.modalEvent( 'modalClose' );
 
         })
         .catch(function(error) {

@@ -1,12 +1,15 @@
 <!-- https://velog.io/@ddpound/Vue-SpringBoot-HTTP-%ED%86%B5%EC%8B%A0-%ED%85%8C%EC%8A%A4%ED%8A%B8cors%EA%B0%92-%ED%97%88%EC%9A%A9 -->
-<template>  
+<template>
   <TodoHeader v-on:headEvent="headEvent"/>
   <TodoInput v-on:addTodo="addTodo"/>
   <TodoList v-bind:propsdata="todoItems"
     @removeTodo="removeTodo"/>
   <TodoFooter v-on:removeAll="clearAll"/>
+  <!-- 회원가입 모달 -->
+  <SignUp></SignUp>
 
-  <!-- 로그인 모달 -->
+  <!-- 로그인 모달 : ouath version -->
+  <!--
   <Modal v-if="signInModal">
     <template #header>
       <div class="modalClose" >
@@ -20,11 +23,6 @@
       <h1>연동</h1>
     </template>
     <template #body>
-      <!-- <button @click="handleClickSignIn"
-        :disabled="!Vue3GoogleOauth.isInit
-        || Vue3GoogleOauth.isAuthorized">
-        sign in
-      </button> -->
       <button
         @click="handleClickSignIn"
         type="button"
@@ -33,6 +31,7 @@
       </button>
     </template>
   </Modal>
+-->
 
 </template>
 
@@ -42,9 +41,9 @@ import TodoHeader from './components/common/TodoHeader.vue'
 import TodoFooter from './components/common/TodoFooter.vue'
 import TodoInput from './components/todo-core/TodoInput.vue'
 import TodoList from './components/todo-core/TodoList.vue'
-import Modal from "./components/common/TodoModal.vue"
+import SignUp from './components/login/SignUp.vue'
 import Axios from 'axios'
-import { inject, toRefs } from "vue";
+// import { inject, toRefs } from "vue";
 
 
 export default {
@@ -54,7 +53,7 @@ export default {
     'TodoFooter' : TodoFooter,
     'TodoInput' : TodoInput,
     'TodoList' : TodoList,
-    'Modal' : Modal
+    'SignUp' : SignUp,
   },
   data() {
     return {
@@ -133,6 +132,7 @@ export default {
 
 
   },
+  /*
   setup(props) {
     const { isSignIn } = toRefs(props);
     const Vue3GoogleOauth = inject("Vue3GoogleOauth");
@@ -145,14 +145,15 @@ export default {
     };
 
   },
+  */
   created() {
-
+    /*
     let Vue3GoogleOauth = inject("Vue3GoogleOauth");
-    console.log('vue vue vue ', Vue3GoogleOauth)
     console.log(
       "getAuthResponse vue vue ",
       this.$gAuth
     );
+    */
     // console.log('Vue3GoogleOauth.isAuthorized1', this.Vue3GoogleOauth.isAuthorized);
     if ( localStorage.length > 0 ) {
       for ( let i = 0; i < localStorage.length; ++i ) {

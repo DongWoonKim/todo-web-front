@@ -78,13 +78,21 @@ export default {
       Axios.post('http://localhost:8080/member/signin', JSON.stringify( obj ), this.axiosConfig)
         .then( function( res ) {
 
-          console.log('res', res);
           if ( res.data === '' ) {
             alert('존재하지 않거나 입력하신 ID or 비밀번호가 일치하지 않습니다!');
             return;
           }
-
+          
           // 사용자 정보를 vuex에 저장시킨다.
+          let storeObj = {};
+          storeObj.id        = res.data.id;
+          storeObj.userId    = self.userId;
+          storeObj.userName  = res.data.username;
+          storeObj.userEmail = res.data.useremail;
+          storeObj.userBirth = res.data.userbirth;
+          storeObj.role      = res.data.role;
+
+          self.$store.commit('SET_USERINFO', storeObj);
 
           // 로그인 창을 닫는다.
           self.modalEvent( 'modalClose' );
@@ -146,7 +154,7 @@ export default {
       // 중복체크 해제
       if ( this.isUserIdCheck ) this.isUserIdCheck = !this.isUserIdCheck;
 
-    },
+    }
 
 
   }

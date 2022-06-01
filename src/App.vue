@@ -89,7 +89,8 @@ export default {
       if (key === 'login') {
         this.signInModal = true;
       } else if ( key === 'logout' ) {
-        this.handleClickSignOut();
+        // this.handleClickSignOut();
+        this.$store.commit( 'INIT_USERINFO' );
       } else if ( key === 'signUp' ) {
         this.signUpModal = true;
       }
@@ -99,7 +100,7 @@ export default {
       if ( key === 'modalClose' ) {
         this.signUpModal = false;
         this.signInModal = false;
-      } else if ( key === 'signUp' ) {        
+      } else if ( key === 'signUp' ) {
         this.signInModal = false;
         this.signUpModal = true;
       }

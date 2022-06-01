@@ -2,11 +2,11 @@
   <header>
     <h1>머하꽈</h1>
     <!-- 로그인 여부는 vuex의 값을 바라보게 한다. -->
-    <div v-if="!isSignIn" class="member">
+    <div v-if="!this.$store.state.loginStateInfo.isSignIn" class="member">
       <span class="login" @click="headEvent('login')">로그인</span> |
       <span class="login" @click="headEvent('signUp')">회원가입</span>
     </div>
-    <div v-if="isSignIn" class="member">
+    <div v-if="this.$store.state.loginStateInfo.isSignIn" class="member">
       <span class="login" @click="headEvent('logout')">로그아웃</span>
     </div>
     <!--
@@ -39,6 +39,9 @@ export default {
       this.$emit('headEvent', key);
     },
   },
+  created() {
+    console.log('header this', this.$store.state.loginStateInfo.isSignIn);
+  }
   /*
   setup(props) {
     const { isSignIn } = toRefs(props);

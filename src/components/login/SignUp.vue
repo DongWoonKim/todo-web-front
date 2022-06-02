@@ -138,7 +138,6 @@ export default {
 
       // email 체크
       await this.checkDuplicateEmail()
-      console.log('get 2', this.mailFlag)
 
       if ( this.mailFlag ) {
         alert('이미 가입된 email 입니다.');

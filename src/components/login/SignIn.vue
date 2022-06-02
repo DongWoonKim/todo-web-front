@@ -34,7 +34,7 @@
     </template>
     <template #footer>
       <div class="">
-        <button type="button" @click="doSignUp" class="btn btn-default" style="margin:0;">로그인</button>
+        <button type="button" @click="doSignIn" class="btn btn-default" style="margin:0;">로그인</button>
         <button type="button" @click="modalEvent('signUp')" class="btn btn-default commonMarginLeft" style="margin:0; margin-left: 5px;">회원가입</button>
       </div>
     </template>
@@ -61,7 +61,7 @@ export default {
     modalEvent( key ) {
       this.$emit('modalEvent', key);
     },
-    doSignUp() {
+    doSignIn() {
 
       let self = this;
       /*
@@ -78,11 +78,13 @@ export default {
       Axios.post('http://localhost:8080/member/signin', JSON.stringify( obj ), this.axiosConfig)
         .then( function( res ) {
 
+          console.log( ' res ', res )
+
           if ( res.data === '' ) {
             alert('존재하지 않거나 입력하신 ID or 비밀번호가 일치하지 않습니다!');
             return;
           }
-          
+
           // 사용자 정보를 vuex에 저장시킨다.
           let storeObj = {};
           storeObj.id        = res.data.id;

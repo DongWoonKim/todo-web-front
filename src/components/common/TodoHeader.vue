@@ -2,23 +2,13 @@
   <header>
     <h1>머하꽈</h1>
     <!-- 로그인 여부는 vuex의 값을 바라보게 한다. -->
-    <div v-if="!this.$store.state.loginStateInfo.isSignIn" class="member">
+    <div v-if="!isSignIn" class="member">
       <span class="login" @click="headEvent('login')">로그인</span> |
       <span class="login" @click="headEvent('signUp')">회원가입</span>
     </div>
-    <div v-if="this.$store.state.loginStateInfo.isSignIn" class="member">
+    <div v-if="isSignIn" class="member">
       <span class="login" @click="headEvent('logout')">로그아웃</span>
     </div>
-    <!--
-    <div v-if="!Vue3GoogleOauth.isAuthorized" class="member">
-      <span class="login" @click="headEvent('login')">로그인</span> |
-      <span class="login" @click="headEvent('signUp')">회원가입</span>
-    </div>
-    <div v-if="Vue3GoogleOauth.isAuthorized" class="member">
-      <span class="login" @click="headEvent('logout')">로그아웃</span>
-    </div>
-    -->
-
   </header>
 </template>
 
@@ -37,10 +27,27 @@ export default {
   methods : {
     headEvent(key) {
       this.$emit('headEvent', key);
+      this.checkIsSign();
+
     },
+    // 토큰 상태를 체크한다.
+    checkIsSign() {
+      let check = this.$store.getters.GET_TOKEN;
+      if ( check.refresh !== null ) {
+        this.isSignIn = true;
+      } else {
+        this.isSignIn = false;
+      }
+    }
   },
   created() {
-    console.log('header this', this.$store.state.loginStateInfo.isSignIn);
+    this.checkIsSign();
+
+  },
+  mounted() {
+    this.emitter.on("resSignin",
+      () => { this.checkIsSign() }
+    );
   }
   /*
   setup(props) {

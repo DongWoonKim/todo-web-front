@@ -85,7 +85,7 @@ export default {
       let self = this;
 
       // axios get 요청
-      Axios.get( 'http://localhost:8080/member', {
+      Axios.get( 'http://localhost:8080/auth/userid', {
         params : {
           userId : this.userId
         }
@@ -111,7 +111,7 @@ export default {
 
       let self = this;
       // axios get 요청
-      await Axios.get( 'http://localhost:8080/member/email', {
+      await Axios.get( 'http://localhost:8080/auth/email', {
         params : {
           userEmail : this.userEmail
         }
@@ -155,7 +155,7 @@ export default {
       obj.userEmail = this.userEmail;
       obj.role = 'u'; // 클라이언트 페이지에서 가입시 기본적으로 권한은 일반사용자이다.
 
-      Axios.post('http://localhost:8080/member', JSON.stringify( obj ), this.axiosConfig)
+      Axios.post('http://localhost:8080/auth/signup', JSON.stringify( obj ), this.axiosConfig)
         .then( function( res ) {
 
           console.log('res', res);

@@ -90,7 +90,8 @@ export default {
         this.signInModal = true;
       } else if ( key === 'logout' ) {
         // this.handleClickSignOut();
-        this.$store.commit( 'INIT_USERINFO' );
+        // this.$store.commit( 'INIT_USERINFO' );
+        this.$store.dispatch( 'SIGNOUT' );
       } else if ( key === 'signUp' ) {
         this.signUpModal = true;
       }
@@ -178,6 +179,17 @@ export default {
         this.todoItems.push( localStorage.key(i) );
       }
     }
+
+    let check = this.$store.getters.GET_TOKEN;
+    console.log('check check', check);
+
+    this.$store.dispatch( 'REFRESH_TOKEN', this.axiosConfig ).then( ( res ) => {
+
+      console.log('refresh token ', res)
+
+    }).catch(( err ) => (
+      console.log( 'sigin err', err.message )
+    ));
 
   }
 }

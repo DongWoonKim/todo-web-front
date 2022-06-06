@@ -43,7 +43,7 @@
 
 <script>
 import Modal from '../../components/common/TodoModal.vue'
-import Axios from 'axios'
+// import Axios from 'axios'
 
 export default {
 
@@ -75,34 +75,16 @@ export default {
       obj.userId = this.userId;
       obj.userPw = this.userPw;
 
-      Axios.post('http://localhost:8080/member/signin', JSON.stringify( obj ), this.axiosConfig)
-        .then( function( res ) {
+      this.$store.dispatch( 'SIGNIN', obj, this.axiosConfig ).then( () => {
+        // 로그인 창을 닫는다.
+        self.modalEvent( 'modalClose' );
+        // header 상태 유지를 위해 TodoHeader 페이지에 이벤트를 발생시킨다.
+        self.emitter.emit( 'resSignin' );
+      }).catch(( err ) => (
+        console.log( 'sigin err', err.message ),
+        alert('존재하지 않거나 입력하신 ID or 비밀번호가 일치하지 않습니다!')
+      ));
 
-          console.log( ' res ', res )
-
-          if ( res.data === '' ) {
-            alert('존재하지 않거나 입력하신 ID or 비밀번호가 일치하지 않습니다!');
-            return;
-          }
-
-          // 사용자 정보를 vuex에 저장시킨다.
-          let storeObj = {};
-          storeObj.id        = res.data.id;
-          storeObj.userId    = self.userId;
-          storeObj.userName  = res.data.username;
-          storeObj.userEmail = res.data.useremail;
-          storeObj.userBirth = res.data.userbirth;
-          storeObj.role      = res.data.role;
-
-          self.$store.commit('SET_USERINFO', storeObj);
-
-          // 로그인 창을 닫는다.
-          self.modalEvent( 'modalClose' );
-
-        })
-        .catch(function(error) {
-          console.log('res', error);
-        });
 
     },
     /* 검증 */

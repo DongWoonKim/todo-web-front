@@ -8,22 +8,58 @@ import VueCookies from 'vue-cookies';
 //request 설정
 Axios.interceptors.request.use(async function (config) {
 
-  if (config.retry==undefined) { //
-    /**
-     * axios 요청 중에 accessToken 만료시 재발급 후 다시 요청할 땐
-     * 기존 요청 정보에서 retry=true만 주가되고
-     * 나머지는 그대로 다시 요청하기 때문에 url이 이상해져서 이렇게 나눔
-     */
-    // config.url = store.state.login.host + config.url; //host 및 url 방식 수정필요
-    console.log('hihihhihi~~~')
+  let check = {};
+  check.access = VueCookies.get( 'accessToken' );
+  check.refresh = VueCookies.get( 'refreshToken' );
+
+  console.log('check aaaaa', check);
+
+  if (
+    ( check.access === '' ||
+      check.access === null ||
+      check.access === 'null' ||
+      check.access === 'undefined' )
+      &&
+    ( check.refresh !== '' &&
+      check.refresh !== null &&
+      check.refresh !== 'null' &&
+      check.refresh !== 'undefined' )
+  ) {
+    console.log('in in in in in')
+    /*
+    //헤더 셋팅
+    config.timeout = 10000;
+    config.headers['Authorization'] = VueCookies.get('accessToken');
+    config.headers['Refresh'] = VueCookies.get('refreshToken');
+    config.headers['Content-Type'] = 'application/json';
+    */
+    //헤더 셋팅
+    // access 토큰을 스토어 필드 값으로 관리하다 쿠키에서 사라지면 필드 값을 보낸다.
+    config.headers['Authorization'] = VueCookies.get('refreshToken'); // 이부분 수정필요.
+    config.headers['Refresh'] = VueCookies.get('refreshToken');
+    config.headers['Content-Type'] = 'application/json';
+  } else if (
+    ( check.access !== '' ||
+      check.access !== null ||
+      check.access !== 'null' ||
+      check.access !== 'undefined' )
+      &&
+    ( check.refresh !== '' &&
+      check.refresh !== null &&
+      check.refresh !== 'null' &&
+      check.refresh !== 'undefined' )
+  ) {
+
+    //헤더 셋팅
+    config.timeout = 10000;
+    config.headers['Authorization'] = VueCookies.get('accessToken');
+    config.headers['Refresh'] = VueCookies.get('refreshToken');
+    config.headers['Content-Type'] = 'application/json';
+
+  } else {
+    console.log('undefined')
   }
 
-  //헤더 셋팅
-  config.timeout = 10000;
-  config.headers['Authorization'] = VueCookies.get('accessToken');
-  config.headers['Refresh'] = VueCookies.get('refreshToken');
-  config.headers['Content-Type'] = 'application/json';
-  console.log('axios interceptors', config)
   return config;
 }, function (error) {
   console.log('axios request error : ', error);

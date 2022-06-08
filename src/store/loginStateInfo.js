@@ -108,7 +108,7 @@ export const loginStateInfo = {
           resolve( res );
         }).catch( err => {
           console.log( 'refresh token err', err.config );
-          reject( err.config.data );
+          reject( err );
         })
       })
     },

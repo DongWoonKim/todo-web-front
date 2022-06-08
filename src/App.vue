@@ -182,14 +182,29 @@ export default {
 
     let check = this.$store.getters.GET_TOKEN;
     console.log('check check', check);
+    if ( check.refresh === 'undefined' ) {
+        this.$store.dispatch( 'SIGNOUT', this.axiosConfig );
 
-    this.$store.dispatch( 'REFRESH_TOKEN', this.axiosConfig ).then( ( res ) => {
+    } else if ( // access token 재발급
+      ( check.access === '' ||
+        check.access === null ||
+        check.access === 'null' ||
+        check.access === 'undefined' )
+        &&
+      ( check.refresh !== '' &&
+        check.refresh !== null &&
+        check.refresh !== 'null' &&
+        check.refresh !== 'undefined' )
+    ) {
 
-      console.log('refresh token ', res)
+      this.$store.dispatch( 'REFRESH_TOKEN', this.axiosConfig ).then( ( res ) => {
+        console.log('refresh token ', res)
+      }).catch(( err ) => (
+        console.log( 'sigin err', err.message )
+      ));
 
-    }).catch(( err ) => (
-      console.log( 'sigin err', err.message )
-    ));
+    }
+
 
   }
 }

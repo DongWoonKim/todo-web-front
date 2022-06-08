@@ -62,7 +62,7 @@ export default {
       this.$emit('modalEvent', key);
     },
     doSignIn() {
-
+      
       let self = this;
       /*
         ******* 방어코드 시작 *******

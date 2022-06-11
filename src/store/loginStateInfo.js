@@ -40,22 +40,21 @@ export const loginStateInfo = {
       state.userId     = '';
       state.userName   = '';
       state.isSignIn   = false;
-      state.loginToken = '';
     },
 
-    SIGNIN_TOKEN ( state, payload ) {
+    SIGNIN_TOK ( state, payload ) {
       VueCookies.set( 'accessToken', payload.data.accessToken, '60s' );
       VueCookies.set( 'refreshToken', payload.data.refreshToken, '1h' );
-
+      console.log('pay pay pay', payload)
       state.accessToken  = payload.data.accessToken;
       state.refreshToken = payload.data.refreshToken;
     },
-    REFRESH_TOKEN( state, payload ) {
+    REFRESH_TOK( state, payload ) {
       VueCookies.set( 'accessToken', payload.data.accessToken, '60s' );
       VueCookies.set( 'refreshToken', payload.data.refreshToken, '1h' );
-      state.accessToken  = payload.accessToken;
+      state.accessToken  = payload.data.accessToken;
     },
-    REMOVE_TOKEN(  ) {
+    REMOVE_TOK(  ) {
 
       VueCookies.remove( 'accessToken' );
       VueCookies.remove( 'refreshToken' );
@@ -89,8 +88,8 @@ export const loginStateInfo = {
     SIGNIN : ( { commit }, params, headConfig ) => {
       return new Promise( ( resolve, reject ) => {
         Axios.post( 'http://localhost:8080/auth/signin', params, headConfig).then( res => {
-          commit('SIGNIN_TOKEN', res);
-          resolve();
+          commit('SIGNIN_TOK', res);
+          resolve( res );
         })
         .catch( err => {
           console.log( 'sign in err', err.message );
@@ -104,7 +103,7 @@ export const loginStateInfo = {
       return new Promise( ( resolve, reject ) => {
         Axios.post( 'http://localhost:8080/auth/refreshToken', headConfig ).then( res => {
           console.log('refresh res', res);
-          commit('REFRESH_TOKEN', res);
+          commit('REFRESH_TOK', res);
           resolve( res );
         }).catch( err => {
           console.log( 'refresh token err', err.config );
@@ -114,7 +113,7 @@ export const loginStateInfo = {
     },
 
     SIGNOUT : ( { commit } ) => {
-      commit('REMOVE_TOKEN');
+      commit('REMOVE_TOK');
     }
 
   }

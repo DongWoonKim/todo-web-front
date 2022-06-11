@@ -62,7 +62,7 @@ export default {
       this.$emit('modalEvent', key);
     },
     doSignIn() {
-      
+
       let self = this;
       /*
         ******* 방어코드 시작 *******
@@ -75,7 +75,12 @@ export default {
       obj.userId = this.userId;
       obj.userPw = this.userPw;
 
-      this.$store.dispatch( 'SIGNIN', obj, this.axiosConfig ).then( () => {
+      this.$store.dispatch( 'SIGNIN', obj, this.axiosConfig ).then( ( res ) => {
+
+        console.log('sigin in res', res);
+        self.$store.state.loginStateInfo.accessToken = res.data.accessToken;
+        self.$store.state.loginStateInfo.refreshToken = res.data.accessToken;
+        
         // 로그인 창을 닫는다.
         self.modalEvent( 'modalClose' );
         // header 상태 유지를 위해 TodoHeader 페이지에 이벤트를 발생시킨다.

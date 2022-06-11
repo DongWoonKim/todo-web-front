@@ -171,6 +171,8 @@ export default {
     }
     let check = this.$store.getters.GET_TOKEN;
     console.log('check check', check);
+    console.log('check check2', this.$store.state.loginStateInfo.accessToken)
+
     if ( check.refresh === 'undefined' ) {
         this.$store.dispatch( 'SIGNOUT', this.axiosConfig );
     } else if ( // access token 재발급

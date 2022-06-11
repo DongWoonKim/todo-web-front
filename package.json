@@ -14,7 +14,8 @@
     "vue": "^3.2.13",
     "vue-cookies": "^1.8.1",
     "vue3-google-oauth2": "^1.0.6",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

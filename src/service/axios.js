@@ -11,11 +11,7 @@ Axios.interceptors.request.use(async function (config) {
   let check = {};
   check.access = VueCookies.get( 'accessToken' );
   check.refresh = VueCookies.get( 'refreshToken' );
-
-  console.log('check aaaaa', check);
-  console.log('aaaa bbbbb', Store.state.loginStateInfo.accessToken);
-  console.log('ccc', Store);
-
+  console.log('out out out out', Store.state.loginStateInfo.accessToken)
   if (
     ( check.access === '' ||
       check.access === null ||
@@ -27,7 +23,8 @@ Axios.interceptors.request.use(async function (config) {
       check.refresh !== 'null' &&
       check.refresh !== 'undefined' )
   ) {
-    console.log('in in in in in')
+    console.log('in in in in in', Store)
+    console.log('in in in in in', Store.state.loginStateInfo.accessToken)
     /*
     //헤더 셋팅
     config.timeout = 10000;
@@ -37,7 +34,7 @@ Axios.interceptors.request.use(async function (config) {
     */
     //헤더 셋팅
     // access 토큰을 스토어 필드 값으로 관리하다 쿠키에서 사라지면 필드 값을 보낸다.
-    config.headers['Authorization'] = VueCookies.get('refreshToken'); // 이부분 수정필요.
+    config.headers['Authorization'] = Store.state.loginStateInfo.accessToken; // 이부분 수정필요.
     config.headers['Refresh'] = VueCookies.get('refreshToken');
     config.headers['Content-Type'] = 'application/json';
   } else if (
@@ -58,8 +55,6 @@ Axios.interceptors.request.use(async function (config) {
     config.headers['Refresh'] = VueCookies.get('refreshToken');
     config.headers['Content-Type'] = 'application/json';
 
-  } else {
-    console.log('undefined')
   }
 
   return config;

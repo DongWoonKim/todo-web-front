@@ -48,8 +48,6 @@ import SignUp from './components/login/SignUp.vue'
 import SignIn from './components/login/SignIn.vue'
 import Axios from 'axios'
 // import { inject, toRefs } from "vue";
-
-
 export default {
   name: 'App',
   components: {
@@ -73,10 +71,8 @@ export default {
       // 로컬 스토리지에 데이터를 추가하는 로직
       localStorage.setItem(todoItem, todoItem);
       this.todoItems.push(todoItem);
-
       let obj = {};
       obj.item = todoItem;
-
       Axios.post('http://localhost:8080/todo', JSON.stringify( obj ), this.axiosConfig)
         .then(function(response) {
           console.log('res', response);
@@ -97,7 +93,6 @@ export default {
       }
     },
     modalEvent(key) {
-
       if ( key === 'modalClose' ) {
         this.signUpModal = false;
         this.signInModal = false;
@@ -130,7 +125,6 @@ export default {
           this.$gAuth.instance.currentUser.get().getAuthResponse()
         );
         console.log('Vue3GoogleOauth.isAuthorized', this.Vue3GoogleOauth.isAuthorized);
-
       } catch (error) {
         //on fail do something
         console.error(error);
@@ -148,21 +142,17 @@ export default {
         console.error(error);
       }
     },
-
-
   },
   /*
   setup(props) {
     const { isSignIn } = toRefs(props);
     const Vue3GoogleOauth = inject("Vue3GoogleOauth");
     const handleClickLogin = () => {};
-
     return {
       Vue3GoogleOauth,
       handleClickLogin,
       isSignIn,
     };
-
   },
   */
   created() {
@@ -179,12 +169,10 @@ export default {
         this.todoItems.push( localStorage.key(i) );
       }
     }
-
     let check = this.$store.getters.GET_TOKEN;
     console.log('check check', check);
     if ( check.refresh === 'undefined' ) {
         this.$store.dispatch( 'SIGNOUT', this.axiosConfig );
-
     } else if ( // access token 재발급
       ( check.access === '' ||
         check.access === null ||
@@ -196,16 +184,12 @@ export default {
         check.refresh !== 'null' &&
         check.refresh !== 'undefined' )
     ) {
-
       this.$store.dispatch( 'REFRESH_TOKEN', this.axiosConfig ).then( ( res ) => {
         console.log('refresh token ', res)
       }).catch(( err ) => (
         console.log( 'sigin err', err.message )
       ));
-
     }
-
-
   }
 }
 </script>
@@ -213,7 +197,6 @@ export default {
 <style lang="scss">
 @import '~styles/Nomalize.scss';
 @import '~styles/CommonStyle.scss';
-
 body {
   text-align: center;
   background-color: #F6F6F8;
@@ -229,7 +212,6 @@ button {
   box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03);
 }
 .test{ display:flex; justify-content: center; align-items: center; height:100vh; }
-
 .btn {
   margin: 40px;
 }

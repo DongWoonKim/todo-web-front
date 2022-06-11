@@ -55,13 +55,13 @@ export const loginStateInfo = {
       VueCookies.set( 'refreshToken', payload.data.refreshToken, '1h' );
       state.accessToken  = payload.accessToken;
     },
-    REMOVE_TOKEN( state ) {
+    REMOVE_TOKEN(  ) {
 
       VueCookies.remove( 'accessToken' );
       VueCookies.remove( 'refreshToken' );
 
-      state.accessToken  = '';
-      state.refreshToken = '';
+      // state.accessToken  = '';
+      // state.refreshToken = '';
 
     }
 

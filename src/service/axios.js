@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import VueCookies from 'vue-cookies';
-// import { store } from '../store/index';
+import Store from '../store/index';
 
 /**
  * 토큰 재발급 후 axios 헤더 값 수정
@@ -13,6 +13,8 @@ Axios.interceptors.request.use(async function (config) {
   check.refresh = VueCookies.get( 'refreshToken' );
 
   console.log('check aaaaa', check);
+  console.log('aaaa bbbbb', Store.state.loginStateInfo.accessToken);
+  console.log('ccc', Store);
 
   if (
     ( check.access === '' ||

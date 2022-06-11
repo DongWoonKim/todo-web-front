@@ -3,7 +3,7 @@ import App from './App.vue'
 import gAuthPlugin from 'vue3-google-oauth2'
 import store from './store'
 import mitt from 'mitt'
-import Axios from './service/axios'
+import './service/axios'
 
 const emitter = mitt();
 const app = createApp(App)
@@ -12,7 +12,7 @@ const app = createApp(App)
 let gauthClientId = "768834812579-ivi0oopbkqe05cg6t41p83t7gteekut6.apps.googleusercontent.com";
 app.use(gAuthPlugin, { clientId: gauthClientId, scope: 'email', prompt: 'consent', fetch_basic_profile: false })
 app.use(store)
-app.use(Axios)
+// app.use(Axios)
 
 
 /*

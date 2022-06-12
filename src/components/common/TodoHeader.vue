@@ -27,6 +27,7 @@ export default {
   methods : {
     headEvent(key) {
       this.$emit('headEvent', key);
+      console.log('in in in in in 2', this.$store.state.loginStateInfo.accessToken)
       this.checkIsSign();
 
     },
@@ -36,6 +37,7 @@ export default {
       if ( check.refresh !== null ) {
         this.isSignIn = true;
       } else {
+
         this.isSignIn = false;
       }
     }

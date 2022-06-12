@@ -11,7 +11,7 @@ Axios.interceptors.request.use(async function (config) {
   let check = {};
   check.access = VueCookies.get( 'accessToken' );
   check.refresh = VueCookies.get( 'refreshToken' );
-  console.log('out out out out', Store.state.loginStateInfo.accessToken)
+
   if (
     ( check.access === '' ||
       check.access === null ||
@@ -23,7 +23,6 @@ Axios.interceptors.request.use(async function (config) {
       check.refresh !== 'null' &&
       check.refresh !== 'undefined' )
   ) {
-    console.log('in in in in in', Store)
     console.log('in in in in in', Store.state.loginStateInfo.accessToken)
     /*
     //헤더 셋팅
@@ -56,7 +55,7 @@ Axios.interceptors.request.use(async function (config) {
     config.headers['Content-Type'] = 'application/json';
 
   }
-
+  
   return config;
 }, function (error) {
   console.log('axios request error : ', error);

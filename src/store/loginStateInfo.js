@@ -50,17 +50,17 @@ export const loginStateInfo = {
       state.refreshToken = payload.data.refreshToken;
     },
     REFRESH_TOK( state, payload ) {
-      VueCookies.set( 'accessToken', payload.data.accessToken, '60s' );
-      VueCookies.set( 'refreshToken', payload.data.refreshToken, '1h' );
-      state.accessToken  = payload.data.accessToken;
+      VueCookies.set( 'accessToken', payload.data.authorization, '60s' );
+      VueCookies.set( 'refreshToken', payload.data.refresh, '1h' );
+      state.accessToken  = payload.data.authorization;
     },
-    REMOVE_TOK(  ) {
+    REMOVE_TOK( state ) {
 
       VueCookies.remove( 'accessToken' );
       VueCookies.remove( 'refreshToken' );
 
-      // state.accessToken  = '';
-      // state.refreshToken = '';
+      state.accessToken  = '';
+      state.refreshToken = '';
 
     }
 

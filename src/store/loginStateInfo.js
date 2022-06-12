@@ -6,7 +6,6 @@ export const loginStateInfo = {
     *** STATE ***
   */
   state : () => ({
-    // Vue3GoogleOauthIsAuthorized : false
     id         : '',
     userId     : '',
     userName   : '',

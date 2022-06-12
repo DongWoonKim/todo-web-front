@@ -27,9 +27,7 @@ export default {
   methods : {
     headEvent(key) {
       this.$emit('headEvent', key);
-      console.log('in in in in in 2', this.$store.state.loginStateInfo.accessToken)
       this.checkIsSign();
-
     },
     // 토큰 상태를 체크한다.
     checkIsSign() {
@@ -37,7 +35,6 @@ export default {
       if ( check.refresh !== null ) {
         this.isSignIn = true;
       } else {
-
         this.isSignIn = false;
       }
     }
@@ -51,20 +48,6 @@ export default {
       () => { this.checkIsSign() }
     );
   }
-  /*
-  setup(props) {
-    const { isSignIn } = toRefs(props);
-    const Vue3GoogleOauth = inject("Vue3GoogleOauth");
-    const handleClickLogin = () => {};
-
-    return {
-      Vue3GoogleOauth,
-      handleClickLogin,
-      isSignIn,
-    };
-
-  },
-  */
 
 }
 </script>

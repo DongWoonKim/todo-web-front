@@ -77,14 +77,14 @@ export default {
 
       this.$store.dispatch( 'SIGNIN', obj, this.axiosConfig ).then( ( res ) => {
 
-        console.log('sigin in res', res);
         self.$store.state.loginStateInfo.accessToken = res.data.accessToken;
         self.$store.state.loginStateInfo.refreshToken = res.data.accessToken;
-        
+
         // 로그인 창을 닫는다.
         self.modalEvent( 'modalClose' );
         // header 상태 유지를 위해 TodoHeader 페이지에 이벤트를 발생시킨다.
         self.emitter.emit( 'resSignin' );
+
       }).catch(( err ) => (
         console.log( 'sigin err', err.message ),
         alert('존재하지 않거나 입력하신 ID or 비밀번호가 일치하지 않습니다!')

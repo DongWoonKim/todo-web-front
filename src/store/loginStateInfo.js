@@ -44,14 +44,21 @@ export const loginStateInfo = {
     SIGNIN_TOK ( state, payload ) {
       VueCookies.set( 'accessToken', payload.data.accessToken, '60s' );
       VueCookies.set( 'refreshToken', payload.data.refreshToken, '1h' );
-      console.log('pay pay pay', payload)
+
       state.accessToken  = payload.data.accessToken;
       state.refreshToken = payload.data.refreshToken;
+      state.userId       = payload.data.userId;
     },
     REFRESH_TOK( state, payload ) {
       VueCookies.set( 'accessToken', payload.data.authorization, '60s' );
       VueCookies.set( 'refreshToken', payload.data.refresh, '1h' );
+
       state.accessToken  = payload.data.authorization;
+      state.refreshToken = payload.data.refresh;
+
+      if ( state.accessToken === '' && state.refreshToken === '' )
+        state.userId = '';
+
     },
     REMOVE_TOK( state ) {
 
@@ -60,6 +67,7 @@ export const loginStateInfo = {
 
       state.accessToken  = '';
       state.refreshToken = '';
+      state.userId       = '';
 
     }
 
@@ -87,6 +95,7 @@ export const loginStateInfo = {
     SIGNIN : ( { commit }, params, headConfig ) => {
       return new Promise( ( resolve, reject ) => {
         Axios.post( 'http://localhost:8080/auth/signin', params, headConfig).then( res => {
+          console.log( 'sign in', res );
           commit('SIGNIN_TOK', res);
           resolve( res );
         })
@@ -100,19 +109,39 @@ export const loginStateInfo = {
     // access토큰 재요청
     REFRESH_TOKEN : ( { commit }, headConfig ) => {
       return new Promise( ( resolve, reject ) => {
+
         Axios.post( 'http://localhost:8080/auth/refreshToken', headConfig ).then( res => {
-          console.log('refresh res', res);
+          console.log('vuex refresh token res', res);
           commit('REFRESH_TOK', res);
           resolve( res );
+
         }).catch( err => {
+
           console.log( 'refresh token err', err.config );
           reject( err );
+
         })
+
+
       })
     },
 
-    SIGNOUT : ( { commit } ) => {
-      commit('REMOVE_TOK');
+    SIGNOUT : ( { commit }, params, headConfig ) => {
+
+      return new Promise( ( resolve, reject ) => {
+        Axios.post( 'http://localhost:8080/auth/signout', params, headConfig ).then( res => {
+          console.log( 'sign out ::');
+          commit('REMOVE_TOK');
+          resolve( res );
+
+        }).catch( err => {
+
+          console.log( 'sign out err', err.config );
+          reject( err );
+
+        })
+      })
+
     }
 
   }

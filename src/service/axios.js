@@ -23,7 +23,6 @@ Axios.interceptors.request.use(async function (config) {
       check.refresh !== 'null' &&
       check.refresh !== 'undefined' )
   ) {
-    console.log('in in in in in', Store.state.loginStateInfo.accessToken)
     /*
     //헤더 셋팅
     config.timeout = 10000;
@@ -55,7 +54,7 @@ Axios.interceptors.request.use(async function (config) {
     config.headers['Content-Type'] = 'application/json';
 
   }
-  
+
   return config;
 }, function (error) {
   console.log('axios request error : ', error);

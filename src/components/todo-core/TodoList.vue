@@ -30,6 +30,9 @@ export default {
     removeTodo( todoItem, index ) {
       this.$emit('removeTodo', todoItem, index);
     }
+  },
+  created() {
+    console.log( 'todo-list ::' )
   }
 }
 </script>

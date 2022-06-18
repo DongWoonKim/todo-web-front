@@ -44,9 +44,13 @@ export default {
 
   },
   mounted() {
+
+    // 이벤트 버스(리스너) 등록
+    let self = this;
     this.emitter.on("resSignin",
-      () => { this.checkIsSign() }
+      () => { self.checkIsSign() }
     );
+
   }
 
 }

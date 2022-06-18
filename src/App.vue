@@ -85,9 +85,20 @@ export default {
       if (key === 'login') {
         this.signInModal = true;
       } else if ( key === 'logout' ) {
-        // this.handleClickSignOut();
-        // this.$store.commit( 'INIT_USERINFO' );
-        this.$store.dispatch( 'SIGNOUT' );
+
+        let self = this;
+
+        // 서버로 요청을 날리면 서버에선 refreshToken 테이블에서 아예 지워버린다.
+        let obj = {};
+        obj.userId = this.$store.state.loginStateInfo.userId;
+        console.log( 'SIGNOUT ::', obj );
+        this.$store.dispatch( 'SIGNOUT', obj, this.axiosConfig ).then( (res) => {
+
+          console.log('res sign out', res);
+          // header 상태 유지를 위해 TodoHeader 페이지에 이벤트를 발생시킨다.
+          self.emitter.emit( 'resSignin' );
+        });
+
       } else if ( key === 'signUp' ) {
         this.signUpModal = true;
       }
@@ -170,7 +181,7 @@ export default {
       }
     }
     let check = this.$store.getters.GET_TOKEN;
-    
+
     if ( check.refresh === 'undefined' ) {
         this.$store.dispatch( 'SIGNOUT', this.axiosConfig );
     } else if ( // access token 재발급
@@ -184,8 +195,8 @@ export default {
         check.refresh !== 'null' &&
         check.refresh !== 'undefined' )
     ) {
-      this.$store.dispatch( 'REFRESH_TOKEN', this.axiosConfig ).then( ( res ) => {
-        console.log('refresh token ', res)
+      this.$store.dispatch( 'REFRESH_TOKEN', this.axiosConfig ).then( () => {
+        console.log('refresh token::')
       }).catch(( err ) => (
         console.log( 'sigin err', err.message )
       ));
